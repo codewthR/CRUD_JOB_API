@@ -33,15 +33,27 @@ public class JobController {
         return job;
     }
 
-    @DeleteMapping("/{id}") // Corrected the path variable syntax
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteJobById(@PathVariable Long id) {
             Job job = jobService.deleteJobById(id);
 
             if (job != null) {
-                return ResponseEntity.ok("Job deleted successfully"); // Return a success message with 200 status
+                return ResponseEntity.ok("Job deleted successfully");
             } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Job not found"); // Return 404 if not found
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Job not found");
             }
         }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateJob(@PathVariable Long id,
+                                            @RequestBody Job updatedJob) {
+        Job existingJob = jobService.findJobById(id);
+        if (existingJob == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Job not found");
+        }
+
+        jobService.updateJob(existingJob);
+        return ResponseEntity.ok("Job updated successfully");
+    }
 
 }
