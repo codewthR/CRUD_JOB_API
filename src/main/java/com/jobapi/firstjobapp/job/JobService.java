@@ -12,5 +12,7 @@ public interface JobService {
     Job getJobById(Long id);
 
     Job deleteJobById(Long id);
+
+    void updateJob(Job existingJob);
 }
 
